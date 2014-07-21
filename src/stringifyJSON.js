@@ -4,24 +4,38 @@
 // but you don't so you're going to write it from scratch:
 var stringifyJSON = function(obj) {
   // your code goes here
-	var temp;
+	var tempArr = [];
+	var newVal;
+	var newKey;
 	console.log(obj);
 	console.log(typeof obj);
 	if (typeof obj==='number') {
-		return obj.toString();
+		return String(obj);
 	} else if (typeof obj === 'boolean') {
-		return obj.toString();
+		return String(obj);
 	} else if (typeof obj === 'string') {
 		return "\"" + obj + "\"";
 	} else if (typeof obj === 'object') {
 		if (obj === null) {
 			return 'null';
-		} else if (obj.length === 0) {
-			return "[" + obj.toString() + "]";
-		} else if (typeof obj[0] === 'number') {
-			return "[" + obj.toString() + "]" 
-		} else if (typeof obj[0] === 'string') {
-			return "[\"" + obj + "\"]";
+		} else if (Array.isArray(obj)) {
+			for (var val in obj) {
+				tempArr.push(stringifyJSON(obj[val]));
+			}
+			tempArr = "[" + tempArr + "]";
+			return tempArr;
+		} else {
+			for (var key in obj) {
+				newKey = stringifyJSON(key);
+				newVal = stringifyJSON(obj[key]);
+				tempArr.push(newKey + ":" + newVal);
+			}
+			if (obj === null) {
+				return "{}";
+			} else {
+				tempArr = "{" + tempArr + "}";
+				return tempArr;
+			}
 		}
 	}
 };
