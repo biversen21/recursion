@@ -28,14 +28,14 @@ var stringifyJSON = function(obj) {
 			for (var key in obj) {
 				newKey = stringifyJSON(key);
 				newVal = stringifyJSON(obj[key]);
-				tempArr.push(newKey + ":" + newVal);
+				if (!newVal) {
+					return "{}"
+				} else {
+					tempArr.push(newKey + ":" + newVal);
+				}
 			}
-			if (obj === null) {
-				return "{}";
-			} else {
-				tempArr = "{" + tempArr + "}";
-				return tempArr;
-			}
+			tempArr = "{" + tempArr + "}";
+			return tempArr;
 		}
 	}
 };
