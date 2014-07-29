@@ -5,21 +5,24 @@
 
 // But instead we're going to implement it from scratch:
 var getElementsByClassName = function(className){
-	var next = document.body.childNodes;
-	var node;
+	var result = [];
+	
 	var domWalk = function(node) {
+		var next = node.childNodes;
 		classCheck(node);
-	}
-	var classCheck = function(node) {
-		if (node.classList.contains(className)) {
-			console.log(true);
-		} else {
-			console.log(false);
+		for (var i = 0; i < next.length; i++) {
+			domWalk(next[i]);
 		}
 	}
-	for (var i = 0; i < next.length; i++) {
-		console.log(next[i]);
-		console.log(next[i].classList);
+	
+	var classCheck = function(node) {
+		if (node.classList) {
+			if (node.classList.contains(className)) {
+				result.push(node);
+			}
+		}
 	}
-	domWalk(next[3]);
+
+	domWalk(document.body);
+	return result;
 };
