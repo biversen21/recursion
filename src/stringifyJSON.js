@@ -3,27 +3,24 @@
 
 // but you don't so you're going to write it from scratch:
 var stringifyJSON = function(obj) {
-  // your code goes here
-	var tempArr = [];
+	var result = [];
 	var newVal;
 	var newKey;
-	console.log(obj);
-	console.log(typeof obj);
-	if (typeof obj==='number') {
-		return String(obj);
-	} else if (typeof obj === 'boolean') {
+	if (typeof obj === 'number' || typeof obj === 'boolean') {
 		return String(obj);
 	} else if (typeof obj === 'string') {
 		return "\"" + obj + "\"";
 	} else if (typeof obj === 'object') {
 		if (obj === null) {
 			return 'null';
+			// Check if obj is an Array
 		} else if (Array.isArray(obj)) {
-			for (var val in obj) {
-				tempArr.push(stringifyJSON(obj[val]));
+			for (var i = 0; i < obj.length; i++) {
+				result.push(stringifyJSON(obj[i]));
 			}
-			tempArr = "[" + tempArr + "]";
-			return tempArr;
+			result = "[" + result + "]";
+			return result;
+			// Actions to take if obj is key:value object
 		} else {
 			for (var key in obj) {
 				newKey = stringifyJSON(key);
@@ -31,11 +28,11 @@ var stringifyJSON = function(obj) {
 				if (!newVal) {
 					return "{}"
 				} else {
-					tempArr.push(newKey + ":" + newVal);
+					result.push(newKey + ":" + newVal);
 				}
 			}
-			tempArr = "{" + tempArr + "}";
-			return tempArr;
+			result = "{" + result + "}";
+			return result;
 		}
 	}
 };
